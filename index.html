@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bench · hardware tester</title>
+<meta name="description" content="Test a keyboard, mouse, screen, speakers, microphone, webcam, gamepad and touchscreen from a browser tab. Nothing gets uploaded.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bench.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2.5' y='5.5' width='27' height='21' rx='2.5' fill='%23f3f0e7' stroke='%231c1b19' stroke-width='2'/%3E%3Cpath d='M6 16h4l2-6 3 12 3-9 2 3h6' fill='none' stroke='%23d4470f' stroke-width='2.2' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<script>
+  // set the theme before first paint so dark-mode people don't get flashed
+  try {
+    var t = JSON.parse(localStorage.getItem('bench.rev-c') || '{}').theme;
+    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#keyboard" aria-label="Bench, back to the first test">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+      <rect x="2.5" y="5.5" width="27" height="21" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M6 16h4l2-6 3 12 3-9 2 3h6" fill="none" stroke="var(--accent)" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">Bench</span>
+    <span class="brand-rev">rev&nbsp;C</span>
+  </a>
+  <span class="top-note">a hardware tester that lives in a browser tab</span>
+  <div class="top-right">
+    <span class="top-clock" id="clock" aria-hidden="true">--:--:--</span>
+    <button class="btn ghost small" id="theme-btn" type="button">theme: auto</button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Tests">
+    <div class="rail-head">
+      <span>Checklist</span>
+      <span id="rail-count">0 / 0</span>
+    </div>
+    <div class="rail-bar" aria-hidden="true"><i id="rail-fill"></i></div>
+    <ol class="rail-list" id="rail-list"></ol>
+
+    <details class="quirks">
+      <summary>Browser quirks worth knowing</summary>
+      <ul>
+        <li>Camera and mic only work over <code>https://</code>, <code>localhost</code> or a file opened directly.</li>
+        <li>Safari keeps some F-keys and media keys for itself. They'll never reach the page.</li>
+        <li>On macOS, Caps Lock sends <em>down</em> when it turns on and <em>up</em> when it turns off. That's not a broken key.</li>
+        <li>Browsers hide gamepads until you press a button on one. Moving a stick isn't enough.</li>
+        <li>The Fn key never reaches a web page, on any OS.</li>
+      </ul>
+    </details>
+
+    <p class="rail-foot">
+      <kbd>[</kbd> <kbd>]</kbd> step through tests<br>
+      (not on the keyboard page, obviously)
+    </p>
+  </nav>
+
+  <main id="stage" tabindex="-1"></main>
+</div>
+
+<footer class="foot">
+  <span>Everything runs locally. Nothing is uploaded, and results are saved to this browser only.</span>
+  <span class="foot-sig">Bench rev C · plain HTML, no trackers</span>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/core.js"></script>
+<script src="js/modules/keyboard.js"></script>
+<script src="js/modules/mouse.js"></script>
+<script src="js/modules/display.js"></script>
+<script src="js/modules/speakers.js"></script>
+<script src="js/modules/microphone.js"></script>
+<script src="js/modules/camera.js"></script>
+<script src="js/modules/gamepad.js"></script>
+<script src="js/modules/touch.js"></script>
+<script src="js/modules/system.js"></script>
+<script src="js/modules/report.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
